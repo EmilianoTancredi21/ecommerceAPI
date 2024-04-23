@@ -3,10 +3,9 @@ import { useState, useEffect, createContext } from "react";
 export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-
+  const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const [cart, setCart] = useState(savedCart);
   const [itemAmount, setItemAmount] = useState(0);
-
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -15,6 +14,7 @@ const CartProvider = ({ children }) => {
         return acc + currentItem.amount;
       }, 0);
       setItemAmount(amount);
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart]);
 
@@ -55,6 +55,7 @@ const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCart([]);
+    localStorage.removeItem("cart");
   };
 
   const increaseAmount = (id) => {
