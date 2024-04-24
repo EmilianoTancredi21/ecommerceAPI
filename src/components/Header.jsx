@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../contexts/SideBarContext";
 import { CartContext } from "../contexts/CartContext";
-import { BsBag } from "react-icons/bs";
+import { BsBag, BsGear } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Logo from "../img/logo.svg";
 
@@ -28,13 +28,16 @@ const Header = () => {
             <img className="w-[40px]" src={Logo} alt="" />
           </div>
         </Link>
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className="cursor-pointer flex relative"
-        >
-          <BsBag className="text-2xl" />
-          <div className="bg-red-500 absolute -right-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
-            {itemAmount}
+        <div className="flex gap-6 justify-center items-center">
+          <BsGear className="text-2xl cursor-pointer" />
+          <div
+            onClick={() => setIsOpen(!isOpen)}
+            className="cursor-pointer flex relative"
+          >
+            <BsBag className="text-2xl" />
+            <div className="bg-red-500 absolute -right-2 text-[12px] w-[18px] h-[18px] text-white rounded-full flex justify-center items-center">
+              {itemAmount}
+            </div>
           </div>
         </div>
       </div>

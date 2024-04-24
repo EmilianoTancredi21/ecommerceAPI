@@ -55,25 +55,34 @@ const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your cart has been deleted.",
-          icon: "success",
-        });
-        setCart([]);
-        localStorage.removeItem("cart");
-      }
-    });
+    if (cart.length > 0) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your cart has been deleted.",
+            icon: "success",
+          });
+          setCart([]);
+          localStorage.removeItem("cart");
+        }
+      });
+    } else {
+      Swal.fire({
+        title:
+          "Your cart is empty, you need to add products before you can clear it.",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Ok",
+      });
+    }
   };
 
   const increaseAmount = (id) => {
