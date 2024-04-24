@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { ProductContext } from "../contexts/ProductContext";
 import { Link } from "react-router-dom";
-// import { SlArrowLeftCircle } from "react-icons/sl";
+import { toast } from "sonner";
 import { GoArrowLeft } from "react-icons/go";
 
 const Details = () => {
@@ -25,6 +25,11 @@ const Details = () => {
 
   const { title, price, image, description } = product;
 
+  const handleAddToCart = () => {
+    addToCart(product, product.id);
+    toast.success(`Product: ${title} added to cart!`); // Show toast on successful add
+  };
+
   return (
     <section className="pt-32 pb-12 lg:py-32 h-screen flex items-center">
       <div className="container mx-auto">
@@ -44,7 +49,7 @@ const Details = () => {
             </div>
             <p className="mb-8">{description}</p>
             <button
-              onClick={() => addToCart(product, product.id)}
+              onClick={handleAddToCart}
               className="bg-primary py-4 px-8 text-white"
             >
               Add to cart
