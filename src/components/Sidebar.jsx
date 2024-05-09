@@ -10,11 +10,12 @@ import { CartContext } from "../contexts/CartContext";
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
   const { cart, clearCart, total } = useContext(CartContext);
+  const isCartEmpty = cart.length === 0;
   return (
     <div
       className={`${
         isOpen ? "right-0" : "-right-full"
-      } w-full bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] xl:max-w-[30vw] transition-all duration-300 z-20 px-4 lg:px-[35px]`}
+      } w-full bg-white fixed top-0 h-full shadow-2xl md:w-[35vw] xl:max-w-[30vw]  transition-all duration-300 z-20 px-4 lg:px-[35px]`}
     >
       <div className="flex items-center justify-between py-6 border-b">
         <div className="uppercase text-sm font-semibold">
@@ -27,7 +28,7 @@ const Sidebar = () => {
           <IoMdArrowForward className="text-2xl" />
         </div>
       </div>
-      <div className="flex flex-col gap-y-2 h-[520px] lg:h-[640px] overflow-y-auto overflow-x-hidden border-b">
+      <div className="flex flex-col gap-y-2 h-[520px] lg:h-[580px] overflow-y-auto overflow-x-hidden border-b">
         {cart.length > 0 ? (
           cart.map((item) => <CartItem item={item} key={item.id} />)
         ) : (
@@ -36,7 +37,7 @@ const Sidebar = () => {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-y-3 py-4 mt-4">
+      <div className="flex flex-col gap-y-3 py-4 mt-12">
         <div className="flex w-full justify-between items-center">
           {/* TOTAL */}
           <div className="uppercase font-semibold">
@@ -50,14 +51,11 @@ const Sidebar = () => {
           </div>
         </div>
         <Link
-          to={"/"}
-          className="bg-gray-200 flex p-4 justify-center items-center text-primary w-full font-medium"
-        >
-          View cart
-        </Link>
-        <Link
-          to={"/"}
-          className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
+          onClick={isCartEmpty ? (e) => e.preventDefault() : handleClose}
+          to={isCartEmpty ? "#" : "/checkout"}
+          className={`bg-primary flex p-4 justify-center items-center text-white w-full font-medium ${
+            isCartEmpty ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           Checkout
         </Link>
