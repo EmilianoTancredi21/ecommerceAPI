@@ -1,20 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../contexts/SideBarContext";
 import { CartContext } from "../contexts/CartContext";
+import { FilterContext } from "../contexts/FilterContext";
 import { BsBag, BsGear } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Logo from "../img/logo.svg";
 
 const Header = () => {
   const [isActive, setIsActive] = useState(false);
   const { isOpen, setIsOpen } = useContext(SidebarContext);
+  const { filterOpen, setFilterOpen } = useContext(FilterContext);
   const { itemAmount } = useContext(CartContext);
+  const location = useLocation();
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
     });
   }, []);
+
+  const isDetailView = location.pathname.includes("/product/");
+  const isCheckOutView = location.pathname.includes("/checkout");
 
   return (
     <header
@@ -29,7 +36,14 @@ const Header = () => {
           </div>
         </Link>
         <div className="flex gap-6 justify-center items-center">
-          <BsGear className="text-2xl cursor-pointer" />
+          {!isDetailView && !isCheckOutView && (
+            <div
+              onClick={() => setFilterOpen(!filterOpen)}
+              className="cursor-pointer flex relative"
+            >
+              <BsGear className="text-2xl" />
+            </div>
+          )}
           <div
             onClick={() => setIsOpen(!isOpen)}
             className="cursor-pointer flex relative"
